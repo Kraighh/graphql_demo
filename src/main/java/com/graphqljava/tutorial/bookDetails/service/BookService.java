@@ -22,15 +22,6 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public List<Book> getBooks(List<Integer> ids, List<Integer> authorIds) {
-        return bookRepository.findAll(
-                (root, query, cb) -> cb.and(
-                        root.get("id").in(ids),
-                        root.get("authorId").in(authorIds)
-                )
-        );
-    }
-
     public Book createBook(BookInput book) {
         // TODO add mapper
         Book b = new Book();

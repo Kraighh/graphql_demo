@@ -6,13 +6,13 @@ import com.graphqljava.tutorial.bookDetails.model.dto.BookInput;
 import com.graphqljava.tutorial.bookDetails.service.AuthorService;
 import com.graphqljava.tutorial.bookDetails.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.graphql.data.method.annotation.*;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.stereotype.Controller;
-import reactor.core.publisher.Mono;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @SchemaMapping(typeName = "Book")
@@ -34,25 +34,9 @@ public class BookController {
         return bookService.getBooks();
     }
 
-//    @QueryMapping
-//    public List<Book> books(@Argument List<Integer> ids, @Argument List<Integer> authorIds) {
-//        return bookService.getBooks(ids, authorIds);
-//    }
-
-//    @SchemaMapping
-//    public Author author(Book book) {
-//        return authorService.getAuthor(book.getAuthorId());
-//    }
-
-    @BatchMapping
-    public Mono<Map<Book, Author>> author (List<Book> books) {
-        return Mono.fromSupplier(() -> {
-            Map<Book, Integer> mapBookAuthorId = books.stream().collect(HashMap::new, (m, v) -> m.put(v, v.getAuthorId()), HashMap::putAll);
-            Map<Integer, Author> mapAuthorIdAuthor = authorService.getAuthorsByIds(mapBookAuthorId.values().stream().toList()).stream().collect(HashMap::new, (m, v) -> m.put(v.getId(), v), HashMap::putAll);
-            Map<Book, Author> mapBookAuthor = new HashMap<>();
-            mapBookAuthorId.forEach((k, v) -> mapBookAuthor.put(k, mapAuthorIdAuthor.get(v)));
-            return mapBookAuthor;
-        });
+    @SchemaMapping
+    public Author author(Book book) {
+        return authorService.getAuthor(book.getAuthorId());
     }
 
     @MutationMapping
