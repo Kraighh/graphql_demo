@@ -1,4 +1,0 @@
-type Query {
-    book(id: Int): Book
-    books: [Book]
-}
