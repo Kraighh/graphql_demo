@@ -30,19 +30,9 @@ public class BookController {
     }
 
     @QueryMapping
-    public List<Book> books() {
-        return bookService.getBooks();
+    public List<Book> books(@Argument List<Integer> ids, @Argument List<Integer> authorIds) {
+        return bookService.getBooks(ids, authorIds);
     }
-
-//    @QueryMapping
-//    public List<Book> books(@Argument List<Integer> ids, @Argument List<Integer> authorIds) {
-//        return bookService.getBooks(ids, authorIds);
-//    }
-
-//    @SchemaMapping
-//    public Author author(Book book) {
-//        return authorService.getAuthor(book.getAuthorId());
-//    }
 
     @BatchMapping
     public Mono<Map<Book, Author>> author (List<Book> books) {

@@ -18,10 +18,6 @@ public class BookService {
         return bookRepository.findById(id).orElse(null);
     }
 
-    public List<Book> getBooks() {
-        return bookRepository.findAll();
-    }
-
     public List<Book> getBooks(List<Integer> ids, List<Integer> authorIds) {
         return bookRepository.findAll(
                 (root, query, cb) -> cb.and(
