@@ -1,0 +1,71 @@
+query Books {
+  books {
+    id
+    name
+    pageCount
+    author {
+      id
+      lastName
+      firstName
+    }
+  }
+}
+
+query BooksByIds {
+  books(ids: [1, 2, 3], authorIds: [2]) {
+    id
+    name
+    pageCount
+    author {
+      id
+      firstName
+      lastName
+    }
+  }
+}
+
+query Book {
+  book(id: 1) {
+    id
+    name
+    pageCount
+    author {
+      id
+      firstName
+      lastName
+    }
+  }
+}
+
+query Authors {
+  authors {
+    id
+    firstName
+    lastName
+  }
+}
+
+query Author {
+  author(id: 1) {
+    id
+    firstName
+    lastName
+  }
+}
+
+mutation CreateBook($bookInput: BookInput!) {
+  createBook(bookInput: $bookInput) {
+    name
+    pageCount
+  }
+}
+
+
+
+{
+  "book": {
+    "name": "mon beau livre",
+    "pageCount": 123,
+    "authorId": 2
+  }
+}
